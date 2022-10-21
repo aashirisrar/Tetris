@@ -1,10 +1,10 @@
 ﻿  main.cpp
-C:\Users\aashi\source\repos\Tetris\Tetris\main.cpp(41,15): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
-C:\Users\aashi\source\repos\Tetris\Tetris\main.cpp(53,33): warning C4305: 'initializing': truncation from 'double' to 'float'
-C:\Users\aashi\source\repos\Tetris\Tetris\main.cpp(88,65): warning C4305: '=': truncation from 'double' to 'float'
-C:\Users\aashi\source\repos\Tetris\Tetris\main.cpp(148,40): warning C4305: '=': truncation from 'double' to 'float'
-C:\Users\aashi\source\repos\Tetris\Tetris\main.cpp(162,41): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\aashi\source\repos\Tetris\Tetris\main.cpp(162,33): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\aashi\source\repos\Tetris\Tetris\main.cpp(170,47): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\aashi\source\repos\Tetris\Tetris\main.cpp(170,34): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\aashi\source\repos\Tetris\Tetris\main.cpp(51,15): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+C:\Users\aashi\source\repos\Tetris\Tetris\main.cpp(65,33): warning C4305: 'initializing': truncation from 'double' to 'float'
+C:\Users\aashi\source\repos\Tetris\Tetris\main.cpp(102,25): warning C4305: '=': truncation from 'double' to 'float'
+C:\Users\aashi\source\repos\Tetris\Tetris\main.cpp(189,20): warning C4305: '=': truncation from 'double' to 'float'
+C:\Users\aashi\source\repos\Tetris\Tetris\main.cpp(203,41): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\aashi\source\repos\Tetris\Tetris\main.cpp(203,33): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\aashi\source\repos\Tetris\Tetris\main.cpp(211,47): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\aashi\source\repos\Tetris\Tetris\main.cpp(211,34): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
   Tetris.vcxproj -> C:\Users\aashi\source\repos\Tetris\Tetris\x64\Debug\Tetris.exe
