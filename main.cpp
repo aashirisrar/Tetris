@@ -126,7 +126,6 @@ void Run(Clock &clock, RenderWindow &window)
     if (Keyboard::isKeyPressed(Keyboard::Down))
     {
         delay = 0.05;
-
     }
 }
 
@@ -218,24 +217,16 @@ void CheckLines()
             if (field[i][j])
             {
                 count++;
-                
             }
 
             field[k][j] = field[i][j];
-
-            
-
         }
         if (count < N)
         {
             k--;
-            
-
         }
     }
             
-
-
     dx = 0;
     rotate = 0;
     delay = 0.3;
@@ -248,11 +239,11 @@ void Draw(RenderWindow &window, Sprite &s, Sprite &background, Sprite &frame)
     window.draw(background);
 
     for (int i = 0; i < M; i++)
+    {
         for (int j = 0; j < N; j++)
         {
             if (field[i][j] == 0)
             {
-
                 continue;
             }
             s.setTextureRect(IntRect(field[i][j] * 18, 0, 18, 18));
@@ -260,7 +251,7 @@ void Draw(RenderWindow &window, Sprite &s, Sprite &background, Sprite &frame)
             s.move(28, 31); // offset
             window.draw(s);
         }
-
+    }
     for (int i = 0; i < 4; i++)
     {
         s.setTextureRect(IntRect(colorNum * 18, 0, 18, 18));
