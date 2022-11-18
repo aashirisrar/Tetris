@@ -36,7 +36,7 @@ void Draw(RenderWindow& window, Sprite& s, Sprite& background, Sprite& frame);
 int dx = 0;
 bool rotate = 0;
 int colorNum = 1;
-float timer = 0, delay = 0.3;
+float timer = 0, delay = 1;
 int score = 0;
 
 
@@ -238,6 +238,7 @@ void Draw(RenderWindow &window, Sprite &s, Sprite &background, Sprite &frame)
     window.clear(Color::White);
     window.draw(background);
 
+    // displaying the blocks at bottom
     for (int i = 0; i < M; i++)
     {
         for (int j = 0; j < N; j++)
@@ -250,8 +251,19 @@ void Draw(RenderWindow &window, Sprite &s, Sprite &background, Sprite &frame)
             s.setPosition(j * 18, i * 18);
             s.move(28, 31); // offset
             window.draw(s);
+
+            if (s.getPosition().y <= 100)
+            {
+                window.close();
+                std::cout << "Game Over!"<<endl;
+                system("pause");
+            }
+            else
+            {
+            }
         }
     }
+    // spawning new blocks
     for (int i = 0; i < 4; i++)
     {
         s.setTextureRect(IntRect(colorNum * 18, 0, 18, 18));
@@ -259,6 +271,8 @@ void Draw(RenderWindow &window, Sprite &s, Sprite &background, Sprite &frame)
         s.move(28, 31); // offset
         window.draw(s);
     }
+
+    
 
     window.draw(frame);
     window.display();
