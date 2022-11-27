@@ -3,10 +3,10 @@
 #include <time.h>
 using namespace sf;
 
-const int M = 20;
-const int N = 10;
+const int rowLength = 20;
+const int coloumnLength = 10;
 
-int field[M][N] = { 0 };
+int frameBlocks[rowLength][coloumnLength] = { 0 };
 
 struct Point
 {
@@ -30,13 +30,13 @@ void Move();
 void Rotate();
 void Tick();
 void CheckLines();
-void Draw(RenderWindow& window, Sprite& s, Sprite& background, Sprite& frame);
+void Draw(RenderWindow& window, Sprite& s, Sprite& background, Sprite& frame, Text &text);
 
 
-int dx = 0;
+int movementOnXAxis = 0;
 bool rotate = 0;
 int colorNum = 1;
-float timer = 0, delay = 1;
+float timer = 0, delayTimeToDescend = 1;
 int score = 0;
 
 
@@ -46,12 +46,37 @@ int main()
 
     RenderWindow window(VideoMode(320, 480), "Tetris");
 
-    Texture t1, t2, t3;
-    t1.loadFromFile("images/tiles.png");
-    t2.loadFromFile("images/background.png");
-    t3.loadFromFile("images/frame.png");
+    Texture textureTile, textureBackground, textureFrame;
+    textureTile.loadFromFile("images/tiles.png");
+    textureBackground.loadFromFile("images/background.png");
+    textureFrame.loadFromFile("images/frame.png");
 
-    Sprite s(t1), background(t2), frame(t3);
+    Sprite tile(textureTile), background(textureBackground), frame(textureFrame);
+
+    Font font;
+
+    font.loadFromFile("fonts/gomarice_no_continue.ttf");
+
+    Text text;
+
+    // select the font
+    text.setFont(font); // font is a sf::Font
+
+    // set the string to display
+    text.setString("GAME OVER");
+
+    // set the character size
+    text.setCharacterSize(54);
+
+    // set the color
+    text.setFillColor(Color::Black);
+
+    // set the text style
+    text.setStyle(Text::Regular);
+
+    // set the absolute position of the entity
+    text.setPosition(52.5f, 185.f);
+
 
     Clock clock;
 
@@ -67,7 +92,9 @@ int main()
 
         CheckLines();      
 
-        Draw(window, s, background, frame);
+        Draw(window, tile, background, frame, text);
+
+        
     }
 
     return 0;
@@ -78,12 +105,15 @@ bool check()
 {
     for (int i = 0; i < 4; i++)
     {
-        if (a[i].x < 0 || a[i].x >= N || a[i].y >= M)
+        // not letting the tile escape the frame area at the side and at the bottom
+        if (a[i].x < 0 || a[i].x >= coloumnLength || a[i].y >= rowLength)
         {
             return 0;
         }
-        else if (field[a[i].y][a[i].x])
+        // not letting the tile to overlap or pass through another tile placed at a point
+        else if (frameBlocks[a[i].y][a[i].x])
         {
+            std::cout << "hello";
             return 0;
         }
     }
@@ -97,35 +127,35 @@ void Run(Clock &clock, RenderWindow &window)
     clock.restart();
     timer += time;
 
-    Event e;
-    while (window.pollEvent(e))
+    Event ev;
+    while (window.pollEvent(ev))
     {
-        if (e.type == Event::Closed)
+        if (ev.type == Event::Closed)
         {
             window.close();
         }
 
-        if (e.type == Event::KeyPressed)
+        if (ev.type == Event::KeyPressed)
         {
-            if (e.key.code == Keyboard::Up)
+            if (ev.key.code == Keyboard::Up)
             {
                 rotate = true;
 
             }
-            else if (e.key.code == Keyboard::Left)
+            else if (ev.key.code == Keyboard::Left)
             {
-                dx = -1;
+                movementOnXAxis = -1;
             }
-            else if (e.key.code == Keyboard::Right)
+            else if (ev.key.code == Keyboard::Right)
             {
-                dx = 1;
+                movementOnXAxis = 1;
             }
         }
     }
 
     if (Keyboard::isKeyPressed(Keyboard::Down))
     {
-        delay = 0.05;
+        delayTimeToDescend = 0.05;
     }
 }
 
@@ -135,7 +165,7 @@ void Move()
     for (int i = 0; i < 4; i++)
     {
         b[i] = a[i];
-        a[i].x += dx;
+        a[i].x += movementOnXAxis;
     }
     if (!check())
     {
@@ -172,7 +202,7 @@ void Rotate()
 void Tick()
 {
     ///////Tick//////
-    if (timer > delay)
+    if (timer > delayTimeToDescend)
     {
         for (int i = 0; i < 4; i++)
         {
@@ -185,7 +215,7 @@ void Tick()
         {
             for (int i = 0; i < 4; i++)
             {
-                field[b[i].y][b[i].x] = colorNum;
+                frameBlocks[b[i].y][b[i].x] = colorNum;
 
             }
 
@@ -206,73 +236,71 @@ void Tick()
 void CheckLines()
 {
     ///////check lines//////////
-    int k = M - 1;
+    int k = rowLength - 1;
 
-    for (int i = M - 1; i > 0; i--)
+    for (int i = rowLength - 1; i > 0; i--)
     {
         int count = 0;
 
-        for (int j = 0; j < N; j++)
+        for (int j = 0; j < coloumnLength; j++)
         {
-            if (field[i][j])
+            if (frameBlocks[i][j])
             {
                 count++;
             }
 
-            field[k][j] = field[i][j];
+            frameBlocks[k][j] = frameBlocks[i][j];
         }
-        if (count < N)
+        if (count < coloumnLength)
         {
             k--;
         }
     }
             
-    dx = 0;
+    movementOnXAxis = 0;
     rotate = 0;
-    delay = 0.3;
+    delayTimeToDescend = 0.3;
 }
 
-void Draw(RenderWindow &window, Sprite &s, Sprite &background, Sprite &frame)
+void Draw(RenderWindow &window, Sprite &tile, Sprite &background, Sprite &frame, Text &text)
 {
     /////////draw//////////
     window.clear(Color::White);
     window.draw(background);
 
     // displaying the blocks at bottom
-    for (int i = 0; i < M; i++)
+    for (int i = 0; i < rowLength; i++)
     {
-        for (int j = 0; j < N; j++)
+        for (int j = 0; j < coloumnLength; j++)
         {
-            if (field[i][j] == 0)
+            if (frameBlocks[i][j] == 0)
             {
                 continue;
             }
-            s.setTextureRect(IntRect(field[i][j] * 18, 0, 18, 18));
-            s.setPosition(j * 18, i * 18);
-            s.move(28, 31); // offset
-            window.draw(s);
+            
+            tile.setTextureRect(IntRect(frameBlocks[i][j] * 18, 0, 18, 18));
+            tile.setPosition(j * 18, i * 18);
+            tile.move(28, 31); // offset
+            window.draw(tile);
 
-            if (s.getPosition().y <= 100)
-            {
-                window.close();
-                std::cout << "Game Over!"<<endl;
-                system("pause");
-            }
-            else
-            {
+
+            // Game Over Functionality
+            if (tile.getPosition().y <= 100)
+            {                
+                window.draw(text);
             }
         }
+       
     }
+
     // spawning new blocks
     for (int i = 0; i < 4; i++)
     {
-        s.setTextureRect(IntRect(colorNum * 18, 0, 18, 18));
-        s.setPosition(a[i].x * 18, a[i].y * 18);
-        s.move(28, 31); // offset
-        window.draw(s);
+        tile.setTextureRect(IntRect(colorNum * 18, 0, 18, 18));
+        tile.setPosition(a[i].x * 18, a[i].y * 18);
+        tile.move(28, 31); // offset
+        window.draw(tile);
     }
-
-    
 
     window.draw(frame);
     window.display();
