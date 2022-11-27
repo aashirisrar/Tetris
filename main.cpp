@@ -10,10 +10,10 @@ int frameBlocks[rowLength][coloumnLength] = { 0 };
 
 struct Cubes
 {
-    int x, y;
-} a[4], b[4];
+    int x, y; // x and y components of the arrays a and b
+} a[4], b[4]; // two global variables of struct Cubes named a and b of size 4
 
-int tetriminoes[7][4] =
+int tetriminoes[7][4] = // array of predefined tetriminoes shapes
 {
     {3, 5, 4, 6}, // S
     {2, 3, 5, 7}, // L
@@ -22,7 +22,7 @@ int tetriminoes[7][4] =
     {2, 3, 4, 5}, // O
     {3, 5, 7, 6}, // J
     {2, 4, 5, 7}, // Z
-};
+}; 
 
 bool check();
 void Run(Clock &clock, RenderWindow &window);
@@ -35,7 +35,7 @@ void Draw(RenderWindow& window, Sprite& s, Sprite& background, Sprite& frame, Te
 
 int movementOnXAxis = 0;
 bool rotate = 0;
-int colorNum = 1;
+int colorNumber = 1;
 float timer = 0, delayTimeToDescend = 1;
 int score = 0;
 
@@ -183,8 +183,6 @@ void Rotate()
             int y = a[i].x - centerOfRotation.x;
             a[i].x = centerOfRotation.x - x;
             a[i].y = centerOfRotation.y + y;
-
-
         }
         if (!check())
         {
@@ -212,11 +210,11 @@ void Tick()
         {
             for (int i = 0; i < 4; i++)
             {
-                frameBlocks[b[i].y][b[i].x] = colorNum;
+                frameBlocks[b[i].y][b[i].x] = colorNumber;
 
             }
 
-            colorNum = 1 + rand() % 7;
+            colorNumber = 1 + rand() % 7;
             int n = rand() % 7;
 
             for (int i = 0; i < 4; i++)
@@ -293,7 +291,7 @@ void Draw(RenderWindow &window, Sprite &tile, Sprite &background, Sprite &frame,
     // spawning new blocks
     for (int i = 0; i < 4; i++)
     {
-        tile.setTextureRect(IntRect(colorNum * 18, 0, 18, 18));
+        tile.setTextureRect(IntRect(colorNumber * 18, 0, 18, 18));
         tile.setPosition(a[i].x * 18, a[i].y * 18);
         tile.move(28, 31); // offset
         window.draw(tile);
