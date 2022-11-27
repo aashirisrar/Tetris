@@ -8,20 +8,20 @@ const int coloumnLength = 10;
 
 int frameBlocks[rowLength][coloumnLength] = { 0 };
 
-struct Point
+struct Cubes
 {
     int x, y;
 } a[4], b[4];
 
-int figures[7][4] =
+int tetriminoes[7][4] =
 {
-    1, 3, 5, 7, // I
-    2, 4, 5, 7, // Z
-    3, 5, 4, 6, // S
-    3, 5, 4, 7, // T
-    2, 3, 5, 7, // L
-    3, 5, 7, 6, // J
-    2, 3, 4, 5, // O
+    {3, 5, 4, 6}, // S
+    {2, 3, 5, 7}, // L
+    {1, 3, 5, 7}, // I
+    {3, 5, 4, 7}, // T
+    {2, 3, 4, 5}, // O
+    {3, 5, 7, 6}, // J
+    {2, 4, 5, 7}, // Z
 };
 
 bool check();
@@ -113,7 +113,6 @@ bool check()
         // not letting the tile to overlap or pass through another tile placed at a point
         else if (frameBlocks[a[i].y][a[i].x])
         {
-            std::cout << "hello";
             return 0;
         }
     }
@@ -179,7 +178,7 @@ void Rotate()
     //////Rotate//////
     if (rotate)
     {
-        Point p = a[1]; // center of rotation
+        Cubes p = a[1]; // center of rotation
         for (int i = 0; i < 4; i++)
         {
             int x = a[i].y - p.y;
@@ -224,8 +223,8 @@ void Tick()
 
             for (int i = 0; i < 4; i++)
             {
-                a[i].x = figures[n][i] % 2;
-                a[i].y = figures[n][i] / 2;
+                a[i].x = tetriminoes[n][i] % 2;
+                a[i].y = tetriminoes[n][i] / 2;
             }
         }
 
