@@ -93,8 +93,6 @@ int main()
         CheckLines();      
 
         Draw(window, tile, background, frame, text);
-
-        
     }
 
     return 0;
@@ -178,13 +176,13 @@ void Rotate()
     //////Rotate//////
     if (rotate)
     {
-        Cubes p = a[1]; // center of rotation
+        Cubes centerOfRotation = a[1]; // center of rotation
         for (int i = 0; i < 4; i++)
         {
-            int x = a[i].y - p.y;
-            int y = a[i].x - p.x;
-            a[i].x = p.x - x;
-            a[i].y = p.y + y;
+            int x = a[i].y - centerOfRotation.y;
+            int y = a[i].x - centerOfRotation.x;
+            a[i].x = centerOfRotation.x - x;
+            a[i].y = centerOfRotation.y + y;
 
 
         }
