@@ -46,11 +46,11 @@ int main()
 {
     srand(time(0));
 
-    RenderWindow window(VideoMode(320, 480), "Tetris");
+    RenderWindow window(VideoMode(320, 480), "Tetris 2.0");
 
     Texture textureTile, textureBackground, textureFrame;
     textureTile.loadFromFile("images/tiles.png");
-    textureBackground.loadFromFile("images/background.png");
+    textureBackground.loadFromFile("images/a.png");
     textureFrame.loadFromFile("images/frame.png");
 
     Sprite tile(textureTile), background(textureBackground), frame(textureFrame);
@@ -77,7 +77,9 @@ int main()
     text.setStyle(Text::Regular);
 
     // set the absolute position of the entity
-    text.setPosition(52.5f, 185.f);
+    //text.setPosition(52.5f, 185.f);
+    text.setPosition(52.5f, 400.f);
+
 
 
     Clock clock;
@@ -281,7 +283,7 @@ void Draw(RenderWindow &window, Sprite &tile, Sprite &background, Sprite &frame,
             
             tile.setTextureRect(IntRect(frameBlocks[i][j] * 18, 0, 18, 18));
             tile.setPosition(j * 18, i * 18);
-            tile.move(28, 31); // offset
+            tile.move(70, 31); // offset
             window.draw(tile);
 
 
@@ -300,10 +302,11 @@ void Draw(RenderWindow &window, Sprite &tile, Sprite &background, Sprite &frame,
     {
         tile.setTextureRect(IntRect(colorNumber * 18, 0, 18, 18));
         tile.setPosition(a[i].x * 18, a[i].y * 18);
-        tile.move(28, 31); // offset
+        tile.move(70, 31); // offset
         window.draw(tile);
     }
 
+    frame.setPosition(43, 1);
     window.draw(frame);
     window.display();
 }
