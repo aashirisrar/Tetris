@@ -6,6 +6,8 @@ using namespace sf;
 const int rowLength = 20;
 const int coloumnLength = 10;
 
+bool gameEnd;
+
 int frameBlocks[rowLength][coloumnLength] = { 0 };
 
 struct Cubes
@@ -82,15 +84,19 @@ int main()
 
     while (window.isOpen())
     {
+
         Run(clock, window);
 
-        Move();
+        if (!gameEnd)
+        {
+            Move();
 
-        Rotate();
+            Rotate();
 
-        Tick();
+            Tick();
 
-        CheckLines();      
+            CheckLines();
+        }
 
         Draw(window, tile, background, frame, text);
     }
@@ -283,6 +289,7 @@ void Draw(RenderWindow &window, Sprite &tile, Sprite &background, Sprite &frame,
             if (tile.getPosition().y <= 100)
             {                
                 window.draw(text);
+                gameEnd = true;
             }
         }
        
