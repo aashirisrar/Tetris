@@ -87,6 +87,11 @@ int main()
     gameOverText.setPosition(52.5f, 465.f);
     tetrisText.setPosition(95.f, 15.f);
 
+    // -------- Icon ---------
+    Image icon;
+    icon.loadFromFile("images/icon.png");
+    window.setIcon(icon.getSize().x, icon.getSize().y, icon.getPixelsPtr());
+
     Clock clock;
 
     while (window.isOpen())
@@ -312,7 +317,7 @@ void Draw(RenderWindow &window, Sprite &tile, Sprite &background, Sprite &frame,
         window.draw(tile);
     }
 
-    frame.setPosition(53, 65);
+    frame.setPosition(50, 65);
     window.draw(frame);
 
     window.draw(tetrisText);
