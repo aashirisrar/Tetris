@@ -32,7 +32,7 @@ void Move();
 void Rotate();
 void Tick();
 void CheckLines();
-void Draw(RenderWindow& window, Sprite& s, Sprite& background, Sprite& frame, Text &text);
+void Draw(RenderWindow& window, Sprite& s, Sprite& background, Sprite& frame, Text &gameOverText, Text &tetrisText);
 
 
 int movementOnXAxis = 0;
@@ -46,11 +46,12 @@ int main()
 {
     srand(time(0));
 
-    RenderWindow window(VideoMode(320, 480), "Tetris 2.0");
+    RenderWindow window(VideoMode(340, 544), "Tetris 2.0");
+
 
     Texture textureTile, textureBackground, textureFrame;
     textureTile.loadFromFile("images/tiles.png");
-    textureBackground.loadFromFile("images/a.png");
+    textureBackground.loadFromFile("images/b.png");
     textureFrame.loadFromFile("images/frame.png");
 
     Sprite tile(textureTile), background(textureBackground), frame(textureFrame);
@@ -59,28 +60,32 @@ int main()
 
     font.loadFromFile("fonts/gomarice_no_continue.ttf");
 
-    Text text;
+    Text gameOverText;
+    Text tetrisText;
 
     // select the font
-    text.setFont(font); // font is a sf::Font
+    gameOverText.setFont(font); 
+    tetrisText.setFont(font);
 
     // set the string to display
-    text.setString("GAME OVER");
+    gameOverText.setString("GAME OVER");
+    tetrisText.setString("TETRIS");
 
     // set the character size
-    text.setCharacterSize(54);
+    gameOverText.setCharacterSize(54);
+    tetrisText.setCharacterSize(54);
 
     // set the color
-    text.setFillColor(Color::Black);
+    gameOverText.setFillColor(Color::Black);
+    tetrisText.setFillColor(Color::Black);
 
     // set the text style
-    text.setStyle(Text::Regular);
+    gameOverText.setStyle(Text::Regular);
+    tetrisText.setStyle(Text::Regular);
 
     // set the absolute position of the entity
-    //text.setPosition(52.5f, 185.f);
-    text.setPosition(52.5f, 400.f);
-
-
+    gameOverText.setPosition(52.5f, 465.f);
+    tetrisText.setPosition(95.f, 15.f);
 
     Clock clock;
 
@@ -100,7 +105,8 @@ int main()
             CheckLines();
         }
 
-        Draw(window, tile, background, frame, text);
+        
+        Draw(window, tile, background, frame, gameOverText, tetrisText);
     }
 
     return 0;
@@ -265,7 +271,7 @@ void CheckLines()
     delayTimeToDescend = 0.3;
 }
 
-void Draw(RenderWindow &window, Sprite &tile, Sprite &background, Sprite &frame, Text &text)
+void Draw(RenderWindow &window, Sprite &tile, Sprite &background, Sprite &frame, Text &gameOverText, Text &tetrisText)
 {
     /////////draw//////////
     window.clear(Color::White);
@@ -283,14 +289,14 @@ void Draw(RenderWindow &window, Sprite &tile, Sprite &background, Sprite &frame,
             
             tile.setTextureRect(IntRect(frameBlocks[i][j] * 18, 0, 18, 18));
             tile.setPosition(j * 18, i * 18);
-            tile.move(70, 31); // offset
+            tile.move(80, 96); // offset
             window.draw(tile);
 
 
             // Game Over Functionality
-            if (tile.getPosition().y <= 100)
+            if (tile.getPosition().y <= 120)
             {                
-                window.draw(text);
+                window.draw(gameOverText);
                 gameEnd = true;
             }
         }
@@ -302,11 +308,13 @@ void Draw(RenderWindow &window, Sprite &tile, Sprite &background, Sprite &frame,
     {
         tile.setTextureRect(IntRect(colorNumber * 18, 0, 18, 18));
         tile.setPosition(a[i].x * 18, a[i].y * 18);
-        tile.move(70, 31); // offset
+        tile.move(80, 96); // offset
         window.draw(tile);
     }
 
-    frame.setPosition(43, 1);
+    frame.setPosition(53, 65);
     window.draw(frame);
+
+    window.draw(tetrisText);
     window.display();
 }
