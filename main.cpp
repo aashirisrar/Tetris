@@ -36,7 +36,7 @@ void Draw(RenderWindow& window, Sprite& s, Sprite& background, Sprite& frame, Te
 
 
 int movementOnXAxis = 0;
-bool rotateCubes = 0;
+bool rotateCubes = false;
 int colorNumber = 1;
 float timer = 0, delayTimeToDescend = 1;
 
