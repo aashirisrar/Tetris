@@ -144,26 +144,26 @@ void Run(Clock &clock, RenderWindow &window)
     clock.restart();
     timer += time;
 
-    Event ev;
-    while (window.pollEvent(ev))
+    Event event;
+    while (window.pollEvent(event))
     {
-        if (ev.type == Event::Closed)
+        if (event.type == Event::Closed)
         {
             window.close();
         }
 
-        if (ev.type == Event::KeyPressed)
+        if (event.type == Event::KeyPressed)
         {
-            if (ev.key.code == Keyboard::Up)
+            if (event.key.code == Keyboard::Up)
             {
                 rotate = true;
 
             }
-            else if (ev.key.code == Keyboard::Left)
+            else if (event.key.code == Keyboard::Left)
             {
                 movementOnXAxis = -1;
             }
-            else if (ev.key.code == Keyboard::Right)
+            else if (event.key.code == Keyboard::Right)
             {
                 movementOnXAxis = 1;
             }
