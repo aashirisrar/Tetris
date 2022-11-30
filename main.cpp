@@ -36,10 +36,9 @@ void Draw(RenderWindow& window, Sprite& s, Sprite& background, Sprite& frame, Te
 
 
 int movementOnXAxis = 0;
-bool rotate = 0;
+bool rotateCubes = 0;
 int colorNumber = 1;
 float timer = 0, delayTimeToDescend = 1;
-int score = 0;
 
 
 int main()
@@ -156,7 +155,7 @@ void Run(Clock &clock, RenderWindow &window)
         {
             if (event.key.code == Keyboard::Up)
             {
-                rotate = true;
+                rotateCubes = true;
 
             }
             else if (event.key.code == Keyboard::Left)
@@ -194,7 +193,7 @@ void Move()
 void Rotate()
 {
     //////Rotate//////
-    if (rotate)
+    if (rotateCubes)
     {
         Cubes centerOfRotation = a[1]; // center of rotation
         for (int i = 0; i < 4; i++)
@@ -273,7 +272,7 @@ void CheckLines()
     }
             
     movementOnXAxis = 0;
-    rotate = 0;
+    rotateCubes = 0;
     delayTimeToDescend = 0.3;
 }
 
