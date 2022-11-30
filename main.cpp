@@ -47,10 +47,12 @@ int main()
     srand(time(0));
 
     RenderWindow window(VideoMode(340, 544), "Tetris 2.0");
+    //RenderWindow window(VideoMode(1280, 720), "Tetris 2.0");
+
 
 
     Texture textureTile, textureBackground, textureFrame;
-    textureTile.loadFromFile("images/tiles.png");
+    textureTile.loadFromFile("images/tilesnew.png");
     textureBackground.loadFromFile("images/b.png");
     textureFrame.loadFromFile("images/frame.png");
 
@@ -109,7 +111,6 @@ int main()
 
             CheckLines();
         }
-
         
         Draw(window, tile, background, frame, gameOverText, tetrisText);
     }
@@ -294,7 +295,7 @@ void Draw(RenderWindow &window, Sprite &tile, Sprite &background, Sprite &frame,
             
             tile.setTextureRect(IntRect(frameBlocks[i][j] * 18, 0, 18, 18));
             tile.setPosition(j * 18, i * 18);
-            tile.move(80, 96); // offset
+            tile.move(79.35, 95); // offset
             window.draw(tile);
 
 
@@ -313,7 +314,7 @@ void Draw(RenderWindow &window, Sprite &tile, Sprite &background, Sprite &frame,
     {
         tile.setTextureRect(IntRect(colorNumber * 18, 0, 18, 18));
         tile.setPosition(a[i].x * 18, a[i].y * 18);
-        tile.move(80, 96); // offset
+        tile.move(79.35, 95); // offset
         window.draw(tile);
     }
 
