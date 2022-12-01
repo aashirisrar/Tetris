@@ -6,7 +6,7 @@
 using namespace sf;
 
 
-void Run(Clock& clock, RenderWindow& window, float &timer, bool &rotateCubes, int &movementOnXAxis, float &delayTimeToDescend)
+void Run(Clock &clock, RenderWindow &window, float &timer, bool &rotateCubes, int &movementOnXAxis, float &delayTimeToDescend)
 {
     float time = clock.getElapsedTime().asSeconds();
     clock.restart();
