@@ -28,7 +28,7 @@ int tetriminoes[7][4] = // array of predefined tetriminoes shapes
 }; 
 
 bool check();
-void Run(Clock &clock, RenderWindow &window);
+void Run(Clock &clock, RenderWindow &window, float& timer, bool& rotateCubes, int& movementOnXAxis, float& delayTimeToDescend);
 void Move();
 void Rotate();
 void Tick();
@@ -82,7 +82,7 @@ int main()
     tetrisText.setFillColor(Color::Black);
 
     // set the text style
-    gameOverText.setStyle(Text::Regular | Text::Underlined);
+    gameOverText.setStyle(Text::Regular );
     tetrisText.setStyle(Text::Regular);
 
     // set the absolute position of the entity
@@ -99,7 +99,7 @@ int main()
     while (window.isOpen())
     {
 
-        Run(clock, window);
+        Run(clock, window, timer,rotateCubes,  movementOnXAxis, delayTimeToDescend);
 
         if (!gameEnd)
         {
