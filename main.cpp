@@ -28,12 +28,12 @@ int tetriminoes[7][4] = // array of predefined tetriminoes shapes
 }; 
 
 bool check();
-void Run(Clock &clock, RenderWindow &window, float& timer, bool& rotateCubes, int& movementOnXAxis, float& delayTimeToDescend);
+void Run(Clock &clock, RenderWindow &window, float &timer, bool &rotateCubes, int &movementOnXAxis, float &delayTimeToDescend);
 void Move();
 void Rotate();
 void Tick();
 void CheckLines();
-void Draw(RenderWindow& window, Sprite& s, Sprite& background, Sprite& frame, Text &gameOverText, Text &tetrisText);
+void Draw(RenderWindow &window, Sprite &s, Sprite &background, Sprite &frame, Text &gameOverText, Text &tetrisText);
 
 
 int movementOnXAxis = 0;
