@@ -1,4 +1,5 @@
 #include "SFML/Graphics.hpp"
+#include "Functions.h"
 #include <iostream>
 #include <time.h>
 using namespace sf;
@@ -81,11 +82,11 @@ int main()
     tetrisText.setFillColor(Color::Black);
 
     // set the text style
-    gameOverText.setStyle(Text::Regular);
+    gameOverText.setStyle(Text::Regular | Text::Underlined);
     tetrisText.setStyle(Text::Regular);
 
     // set the absolute position of the entity
-    gameOverText.setPosition(52.5f, 465.f);
+    gameOverText.setPosition(52.5f, 465.f); // f for explicit typecasting
     tetrisText.setPosition(95.f, 15.f);
 
     // -------- Icon ---------
@@ -137,43 +138,43 @@ bool check()
     return 1;
 }
 
-void Run(Clock &clock, RenderWindow &window)
-{
-    float time = clock.getElapsedTime().asSeconds();
-    clock.restart();
-    timer += time;
-
-    Event event;
-    while (window.pollEvent(event))
-    {
-        if (event.type == Event::Closed)
-        {
-            window.close();
-        }
-
-        if (event.type == Event::KeyPressed)
-        {
-            if (event.key.code == Keyboard::Up)
-            {
-                rotateCubes = true;
-
-            }
-            else if (event.key.code == Keyboard::Left)
-            {
-                movementOnXAxis = -1;
-            }
-            else if (event.key.code == Keyboard::Right)
-            {
-                movementOnXAxis = 1;
-            }
-        }
-    }
-
-    if (Keyboard::isKeyPressed(Keyboard::Down))
-    {
-        delayTimeToDescend = 0.05;
-    }
-}
+//void Run(Clock &clock, RenderWindow &window)
+//{
+//    float time = clock.getElapsedTime().asSeconds();
+//    clock.restart();
+//    timer += time;
+//
+//    Event event;
+//    while (window.pollEvent(event))
+//    {
+//        if (event.type == Event::Closed)
+//        {
+//            window.close();
+//        }
+//
+//        if (event.type == Event::KeyPressed)
+//        {
+//            if (event.key.code == Keyboard::Up)
+//            {
+//                rotateCubes = true;
+//
+//            }
+//            else if (event.key.code == Keyboard::Left)
+//            {
+//                movementOnXAxis = -1;
+//            }
+//            else if (event.key.code == Keyboard::Right)
+//            {
+//                movementOnXAxis = 1;
+//            }
+//        }
+//    }
+//
+//    if (Keyboard::isKeyPressed(Keyboard::Down))
+//    {
+//        delayTimeToDescend = 0.05;
+//    }
+//}
 
 void Move()
 {
