@@ -1,45 +1,25 @@
 #include "SFML/Graphics.hpp"
-#include "Functions.h"
+#include "functions.h"
 #include <iostream>
 #include <time.h>
 using namespace sf;
 
-const int rowLength = 20;
-const int coloumnLength = 10;
 
-bool gameEnd;
-
-int frameBlocks[rowLength][coloumnLength] = { 0 };
-
-struct Cubes
-{
-    int x, y; // x and y components of the arrays a and b
-} a[4], b[4]; // two global variables of struct Cubes named a and b of size 4
-
-int tetriminoes[7][4] = // array of predefined tetriminoes shapes
-{
-    {3, 5, 4, 6}, // S
-    {2, 3, 5, 7}, // L
-    {1, 3, 5, 7}, // I
-    {3, 5, 4, 7}, // T
-    {2, 3, 4, 5}, // O
-    {3, 5, 7, 6}, // J
-    {2, 4, 5, 7}, // Z
-}; 
 
 bool check();
 void Run(Clock &clock, RenderWindow &window, float &timer, bool &rotateCubes, int &movementOnXAxis, float &delayTimeToDescend);
-void Move();
-void Rotate();
-void Tick();
-void CheckLines();
-void Draw(RenderWindow &window, Sprite &s, Sprite &background, Sprite &frame, Text &gameOverText, Text &tetrisText);
+void Move(int& movementOnXAxis);
+void Rotate(bool& rotateCubes);
+void Tick(float& timer, float& delayTimeToDescend, int& colorNumber);
+void CheckLines(bool& rotateCubes, int& movementOnXAxis, float& delayTimeToDescend);
+void Draw(RenderWindow &window, Sprite &tile, Sprite &background, Sprite &frame, Text &gameOverText, Text &tetrisText, bool &gameEnd, int &colorNumber);
 
 
 int movementOnXAxis = 0;
 bool rotateCubes = false;
 int colorNumber = 1;
 float timer = 0, delayTimeToDescend = 1;
+bool gameEnd;
 
 
 int main()
@@ -47,9 +27,6 @@ int main()
     srand(time(0));
 
     RenderWindow window(VideoMode(340, 544), "Tetris 2.0");
-    //RenderWindow window(VideoMode(1280, 720), "Tetris 2.0");
-
-
 
     Texture textureTile, textureBackground, textureFrame;
     textureTile.loadFromFile("images/tilesnew.png");
@@ -103,40 +80,41 @@ int main()
 
         if (!gameEnd)
         {
-            Move();
+            Move(movementOnXAxis);
 
-            Rotate();
+            Rotate(rotateCubes);
 
-            Tick();
+            Tick(timer, delayTimeToDescend, colorNumber);
 
-            CheckLines();
+            CheckLines(rotateCubes,  movementOnXAxis, delayTimeToDescend);
         }
         
-        Draw(window, tile, background, frame, gameOverText, tetrisText);
+        //Draw(window, tile, background, frame, gameOverText, tetrisText);
+        Draw(window, tile, background, frame, gameOverText, tetrisText,  gameEnd, colorNumber);
     }
 
     return 0;
 }
 
 
-bool check()
-{
-    for (int i = 0; i < 4; i++)
-    {
-        // not letting the tile escape the frame area at the side and at the bottom
-        if (a[i].x < 0 || a[i].x >= coloumnLength || a[i].y >= rowLength)
-        {
-            return 0;
-        }
-        // not letting the tile to overlap or pass through another tile placed at a point
-        else if (frameBlocks[a[i].y][a[i].x])
-        {
-            return 0;
-        }
-    }
-
-    return 1;
-}
+//bool check()
+//{
+//    for (int i = 0; i < 4; i++)
+//    {
+//        // not letting the tile escape the frame area at the side and at the bottom
+//        if (a[i].x < 0 || a[i].x >= coloumnLength || a[i].y >= rowLength)
+//        {
+//            return 0;
+//        }
+//        // not letting the tile to overlap or pass through another tile placed at a point
+//        else if (frameBlocks[a[i].y][a[i].x])
+//        {
+//            return 0;
+//        }
+//    }
+//
+//    return 1;
+//}
 
 //void Run(Clock &clock, RenderWindow &window)
 //{
@@ -176,151 +154,151 @@ bool check()
 //    }
 //}
 
-void Move()
-{
-    //// <- Move -> ///
-    for (int i = 0; i < 4; i++)
-    {
-        b[i] = a[i];
-        a[i].x += movementOnXAxis;
-    }
-    if (!check())
-    {
-        for (int i = 0; i < 4; i++)
-            a[i] = b[i];
-    }
-}
+//void Move()
+//{
+//    //// <- Move -> ///
+//    for (int i = 0; i < 4; i++)
+//    {
+//        b[i] = a[i];
+//        a[i].x += movementOnXAxis;
+//    }
+//    if (!check())
+//    {
+//        for (int i = 0; i < 4; i++)
+//            a[i] = b[i];
+//    }
+//}
 
-void Rotate()
-{
-    //////Rotate//////
-    if (rotateCubes)
-    {
-        Cubes centerOfRotation = a[1]; // center of rotation
-        for (int i = 0; i < 4; i++)
-        {
-            int x = a[i].y - centerOfRotation.y;
-            int y = a[i].x - centerOfRotation.x;
-            a[i].x = centerOfRotation.x - x;
-            a[i].y = centerOfRotation.y + y;
-        }
-        if (!check())
-        {
-            for (int i = 0; i < 4; i++)
-            {
-                a[i] = b[i];
-            }
-        }
-    }
-}
+//void Rotate()
+//{
+//    //////Rotate//////
+//    if (rotateCubes)
+//    {
+//        Cubes centerOfRotation = a[1]; // center of rotation
+//        for (int i = 0; i < 4; i++)
+//        {
+//            int x = a[i].y - centerOfRotation.y;
+//            int y = a[i].x - centerOfRotation.x;
+//            a[i].x = centerOfRotation.x - x;
+//            a[i].y = centerOfRotation.y + y;
+//        }
+//        if (!check())
+//        {
+//            for (int i = 0; i < 4; i++)
+//            {
+//                a[i] = b[i];
+//            }
+//        }
+//    }
+//}
 
-void Tick()
-{
-    ///////Tick//////
-    if (timer > delayTimeToDescend)
-    {
-        for (int i = 0; i < 4; i++)
-        {
-            b[i] = a[i];
-            a[i].y += 1;
+//void Tick()
+//{
+//    ///////Tick//////
+//    if (timer > delayTimeToDescend)
+//    {
+//        for (int i = 0; i < 4; i++)
+//        {
+//            b[i] = a[i];
+//            a[i].y += 1;
+//
+//        }
+//
+//        if (!check())
+//        {
+//            for (int i = 0; i < 4; i++)
+//            {
+//                frameBlocks[b[i].y][b[i].x] = colorNumber;
+//
+//            }
+//
+//            colorNumber = 1 + rand() % 7;
+//            int n = rand() % 7;
+//
+//            for (int i = 0; i < 4; i++)
+//            {
+//                a[i].x = tetriminoes[n][i] % 2;
+//                a[i].y = tetriminoes[n][i] / 2;
+//            }
+//        }
+//
+//        timer = 0;
+//    }
+//}
+//
+//void CheckLines()
+//{
+//    ///////check lines//////////
+//    int k = rowLength - 1;
+//
+//    for (int i = rowLength - 1; i > 0; i--)
+//    {
+//        int count = 0;
+//
+//        for (int j = 0; j < coloumnLength; j++)
+//        {
+//            if (frameBlocks[i][j])
+//            {
+//                count++;
+//            }
+//
+//            frameBlocks[k][j] = frameBlocks[i][j];
+//        }
+//        if (count < coloumnLength)
+//        {
+//            k--;
+//        }
+//    }
+//            
+//    movementOnXAxis = 0;
+//    rotateCubes = 0;
+//    delayTimeToDescend = 0.3;
+//}
 
-        }
-
-        if (!check())
-        {
-            for (int i = 0; i < 4; i++)
-            {
-                frameBlocks[b[i].y][b[i].x] = colorNumber;
-
-            }
-
-            colorNumber = 1 + rand() % 7;
-            int n = rand() % 7;
-
-            for (int i = 0; i < 4; i++)
-            {
-                a[i].x = tetriminoes[n][i] % 2;
-                a[i].y = tetriminoes[n][i] / 2;
-            }
-        }
-
-        timer = 0;
-    }
-}
-
-void CheckLines()
-{
-    ///////check lines//////////
-    int k = rowLength - 1;
-
-    for (int i = rowLength - 1; i > 0; i--)
-    {
-        int count = 0;
-
-        for (int j = 0; j < coloumnLength; j++)
-        {
-            if (frameBlocks[i][j])
-            {
-                count++;
-            }
-
-            frameBlocks[k][j] = frameBlocks[i][j];
-        }
-        if (count < coloumnLength)
-        {
-            k--;
-        }
-    }
-            
-    movementOnXAxis = 0;
-    rotateCubes = 0;
-    delayTimeToDescend = 0.3;
-}
-
-void Draw(RenderWindow &window, Sprite &tile, Sprite &background, Sprite &frame, Text &gameOverText, Text &tetrisText)
-{
-    /////////draw//////////
-    window.clear(Color::White);
-    window.draw(background);
-
-    // displaying the blocks at bottom
-    for (int i = 0; i < rowLength; i++)
-    {
-        for (int j = 0; j < coloumnLength; j++)
-        {
-            if (frameBlocks[i][j] == 0)
-            {
-                continue;
-            }
-            
-            tile.setTextureRect(IntRect(frameBlocks[i][j] * 18, 0, 18, 18));
-            tile.setPosition(j * 18, i * 18);
-            tile.move(79.35, 95); // offset
-            window.draw(tile);
-
-
-            // Game Over Functionality
-            if (tile.getPosition().y <= 120)
-            {                
-                window.draw(gameOverText);
-                gameEnd = true;
-            }
-        }
-       
-    }
-
-    // spawning new blocks
-    for (int i = 0; i < 4; i++)
-    {
-        tile.setTextureRect(IntRect(colorNumber * 18, 0, 18, 18));
-        tile.setPosition(a[i].x * 18, a[i].y * 18);
-        tile.move(79.35, 95); // offset
-        window.draw(tile);
-    }
-
-    frame.setPosition(50, 65);
-    window.draw(frame);
-
-    window.draw(tetrisText);
-    window.display();
-}
+//void Draw(RenderWindow &window, Sprite &tile, Sprite &background, Sprite &frame, Text &gameOverText, Text &tetrisText)
+//{
+//    /////////draw//////////
+//    window.clear(Color::White);
+//    window.draw(background);
+//
+//    // displaying the blocks at bottom
+//    for (int i = 0; i < rowLength; i++)
+//    {
+//        for (int j = 0; j < coloumnLength; j++)
+//        {
+//            if (frameBlocks[i][j] == 0)
+//            {
+//                continue;
+//            }
+//            
+//            tile.setTextureRect(IntRect(frameBlocks[i][j] * 18, 0, 18, 18));
+//            tile.setPosition(j * 18, i * 18);
+//            tile.move(79.35, 95); // offset
+//            window.draw(tile);
+//
+//
+//            // Game Over Functionality
+//            if (tile.getPosition().y <= 120)
+//            {                
+//                window.draw(gameOverText);
+//                gameEnd = true;
+//            }
+//        }
+//       
+//    }
+//
+//    // spawning new blocks
+//    for (int i = 0; i < 4; i++)
+//    {
+//        tile.setTextureRect(IntRect(colorNumber * 18, 0, 18, 18));
+//        tile.setPosition(a[i].x * 18, a[i].y * 18);
+//        tile.move(79.35, 95); // offset
+//        window.draw(tile);
+//    }
+//
+//    frame.setPosition(50, 65);
+//    window.draw(frame);
+//
+//    window.draw(tetrisText);
+//    window.display();
+//}
