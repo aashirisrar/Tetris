@@ -1,6 +1,5 @@
 #include "SFML/Graphics.hpp"
 #include "functions.h"
-#include <iostream>
 #include <time.h>
 using namespace sf;
 
