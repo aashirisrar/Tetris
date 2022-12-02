@@ -4,13 +4,13 @@
 using namespace sf;
 
 // Function Prototypes
-bool check();
-void Run(Clock &clock, RenderWindow &window, float &timer, bool &rotateCubes, int &movementOnXAxis, float &delayTimeToDescend);
-void Move(int& movementOnXAxis);
-void Rotate(bool& rotateCubes);
-void Tick(float& timer, float& delayTimeToDescend, int& colorNumber);
-void CheckLines(bool& rotateCubes, int& movementOnXAxis, float& delayTimeToDescend);
-void Draw(RenderWindow &window, Sprite &tile, Sprite &background, Sprite &frame, Text &gameOverText, Text &tetrisText, bool &gameEnd, int &colorNumber);
+bool CheckFrame();
+void RunGame(Clock &clock, RenderWindow &window, float &timer, bool &rotateCubes, int &movementOnXAxis, float &delayTimeToDescend);
+void Movement(int& movementOnXAxis);
+void Rotation(bool& rotateCubes);
+void DescendTile(float& timer, float& delayTimeToDescend, int& colorNumber);
+void CheckRows(bool& rotateCubes, int& movementOnXAxis, float& delayTimeToDescend);
+void DrawGraphics(RenderWindow &window, Sprite &tile, Sprite &background, Sprite &frame, Text &gameOverText, Text &tetrisText, bool &gameEnd, int &colorNumber);
 
 // Global Variable Declarations
 int movementOnXAxis = 0;
@@ -76,20 +76,20 @@ int main()
 
     while (window.isOpen())
     {
-        Run(clock, window, timer, rotateCubes, movementOnXAxis, delayTimeToDescend);
+        RunGame(clock, window, timer, rotateCubes, movementOnXAxis, delayTimeToDescend);
 
         if (!gameEnd)
         {
-            Move(movementOnXAxis);
+            Movement(movementOnXAxis);
 
-            Rotate(rotateCubes);
+            Rotation(rotateCubes);
 
-            Tick(timer, delayTimeToDescend, colorNumber);
+            DescendTile(timer, delayTimeToDescend, colorNumber);
 
-            CheckLines(rotateCubes,  movementOnXAxis, delayTimeToDescend);
+            CheckRows(rotateCubes,  movementOnXAxis, delayTimeToDescend);
         }
         
-        Draw(window, tile, background, frame, gameOverText, tetrisText, gameEnd, colorNumber);
+        DrawGraphics(window, tile, background, frame, gameOverText, tetrisText, gameEnd, colorNumber);
 
     }
 

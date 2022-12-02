@@ -24,7 +24,7 @@ struct Cubes
 } a[4], b[4]; // two global variables of struct Cubes named a and b of size 4
 
 
-bool check()
+bool CheckFrame()
 {
     for (int i = 0; i < 4; i++)
     {
@@ -42,7 +42,7 @@ bool check()
     return 1;
 } 
 
-void Run(Clock& clock, RenderWindow& window, float& timer, bool& rotateCubes, int& movementOnXAxis, float& delayTimeToDescend)
+void RunGame(Clock& clock, RenderWindow& window, float& timer, bool& rotateCubes, int& movementOnXAxis, float& delayTimeToDescend)
 {
     float time = clock.getElapsedTime().asSeconds();
     clock.restart();
@@ -79,21 +79,21 @@ void Run(Clock& clock, RenderWindow& window, float& timer, bool& rotateCubes, in
     }
 } 
 
-void Move(int &movementOnXAxis )
+void Movement(int &movementOnXAxis )
 {  
     for (int i = 0; i < 4; i++)
     {
         b[i] = a[i];
         a[i].x += movementOnXAxis;
     }
-    if (!check())
+    if (!CheckFrame())
     {
         for (int i = 0; i < 4; i++)
             a[i] = b[i];
     }
 }
 
-void Rotate(bool &rotateCubes)
+void Rotation(bool &rotateCubes)
 {
     if (rotateCubes)
     {
@@ -105,7 +105,7 @@ void Rotate(bool &rotateCubes)
             a[i].x = centerOfRotation.x - x;
             a[i].y = centerOfRotation.y + y;
         }
-        if (!check())
+        if (!CheckFrame())
         {
             for (int i = 0; i < 4; i++)
             {
@@ -115,7 +115,7 @@ void Rotate(bool &rotateCubes)
     }
 }
 
-void CheckLines(bool &rotateCubes, int &movementOnXAxis, float &delayTimeToDescend)
+void CheckRows(bool &rotateCubes, int &movementOnXAxis, float &delayTimeToDescend)
 {
     int k = rowLength - 1;
 
@@ -143,7 +143,7 @@ void CheckLines(bool &rotateCubes, int &movementOnXAxis, float &delayTimeToDesce
     delayTimeToDescend = 0.3;
 }
 
-void Tick(float& timer, float& delayTimeToDescend, int& colorNumber)
+void DescendTile(float& timer, float& delayTimeToDescend, int& colorNumber)
 {
     if (timer > delayTimeToDescend)
     {
@@ -153,7 +153,7 @@ void Tick(float& timer, float& delayTimeToDescend, int& colorNumber)
             a[i].y += 1;
         }
 
-        if (!check())
+        if (!CheckFrame())
         {
             for (int i = 0; i < 4; i++)
             {
@@ -174,7 +174,7 @@ void Tick(float& timer, float& delayTimeToDescend, int& colorNumber)
     }
 }
 
-void Draw(RenderWindow& window, Sprite& tile, Sprite& background, Sprite& frame, Text& gameOverText, Text& tetrisText, bool& gameEnd, int& colorNumber)
+void DrawGraphics(RenderWindow& window, Sprite& tile, Sprite& background, Sprite& frame, Text& gameOverText, Text& tetrisText, bool& gameEnd, int& colorNumber)
 {
     window.clear(Color::White);
     window.draw(background);
