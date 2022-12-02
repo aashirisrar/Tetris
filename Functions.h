@@ -61,7 +61,6 @@ void Run(Clock& clock, RenderWindow& window, float& timer, bool& rotateCubes, in
             if (event.key.code == Keyboard::Up)
             {
                 rotateCubes = true;
-
             }
             else if (event.key.code == Keyboard::Left)
             {
@@ -152,7 +151,6 @@ void Tick(float& timer, float& delayTimeToDescend, int& colorNumber)
         {
             b[i] = a[i];
             a[i].y += 1;
-
         }
 
         if (!check())
@@ -160,7 +158,6 @@ void Tick(float& timer, float& delayTimeToDescend, int& colorNumber)
             for (int i = 0; i < 4; i++)
             {
                 frameBlocks[b[i].y][b[i].x] = colorNumber;
-
             }
 
             colorNumber = 1 + rand() % 7;
