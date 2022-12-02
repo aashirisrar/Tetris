@@ -1,11 +1,7 @@
 #pragma once
 #include "SFML/Graphics.hpp"
-//#include "Functions.h"
-#include <iostream>
 #include <time.h>
 using namespace sf;
-using namespace std;
-
 
 const int rowLength = 20;
 const int coloumnLength = 10;
@@ -28,53 +24,23 @@ struct Cubes
 } a[4], b[4]; // two global variables of struct Cubes named a and b of size 4
 
 
-void Draw(RenderWindow &window, Sprite &tile, Sprite &background, Sprite &frame, Text &gameOverText, Text &tetrisText,bool& gameEnd, int& colorNumber)
+bool check()
 {
-    /////////draw//////////
-    window.clear(Color::White);
-    window.draw(background);
-
-    // displaying the blocks at bottom
-    for (int i = 0; i < rowLength; i++)
-    {
-        for (int j = 0; j < coloumnLength; j++)
-        {
-            if (frameBlocks[i][j] == 0)
-            {
-                continue;
-            }
-
-            tile.setTextureRect(IntRect(frameBlocks[i][j] * 18, 0, 18, 18));
-            tile.setPosition(j * 18, i * 18);
-            tile.move(79.35, 95); // offset
-            window.draw(tile);
-
-
-            // Game Over Functionality
-            if (tile.getPosition().y <= 120)
-            {
-                window.draw(gameOverText);
-                gameEnd = true;
-            }
-        }
-
-    }
-
-    // spawning new blocks
     for (int i = 0; i < 4; i++)
     {
-        tile.setTextureRect(IntRect(colorNumber * 18, 0, 18, 18));
-        tile.setPosition(a[i].x * 18, a[i].y * 18);
-        tile.move(79.35, 95); // offset
-        window.draw(tile);
+        // not letting the tile escape the frame area at the side and at the bottom
+        if (a[i].x < 0 || a[i].x >= coloumnLength || a[i].y >= rowLength)
+        {
+            return 0;
+        }
+        // not letting the tile to overlap or pass through another tile placed at a point
+        else if (frameBlocks[a[i].y][a[i].x])
+        {
+            return 0;
+        }
     }
-
-    frame.setPosition(50, 65);
-    window.draw(frame);
-
-    window.draw(tetrisText);
-    window.display();
-}
+    return 1;
+} 
 
 void Run(Clock& clock, RenderWindow& window, float& timer, bool& rotateCubes, int& movementOnXAxis, float& delayTimeToDescend)
 {
@@ -112,30 +78,10 @@ void Run(Clock& clock, RenderWindow& window, float& timer, bool& rotateCubes, in
     {
         delayTimeToDescend = 0.05;
     }
-}
-
-
-bool check()  
-{
-    for (int i = 0; i < 4; i++)
-    {
-        // not letting the tile escape the frame area at the side and at the bottom
-        if (a[i].x < 0 || a[i].x >= coloumnLength || a[i].y >= rowLength)
-        {
-            return 0;
-        }
-        // not letting the tile to overlap or pass through another tile placed at a point
-       else if (frameBlocks[a[i].y][a[i].x])
-        {
-            return 0;
-        }
-    }
-    return 1;
-}
-
+} 
 
 void Move(int &movementOnXAxis )
-{   //// <- Move -> ///
+{  
     for (int i = 0; i < 4; i++)
     {
         b[i] = a[i];
@@ -150,7 +96,6 @@ void Move(int &movementOnXAxis )
 
 void Rotate(bool &rotateCubes)
 {
-    //////Rotate//////
     if (rotateCubes)
     {
         Cubes centerOfRotation = a[1]; // center of rotation
@@ -171,9 +116,36 @@ void Rotate(bool &rotateCubes)
     }
 }
 
-void Tick(float &timer, float &delayTimeToDescend, int &colorNumber)
+void CheckLines(bool &rotateCubes, int &movementOnXAxis, float &delayTimeToDescend)
 {
-    ///////Tick//////
+    int k = rowLength - 1;
+
+    for (int i = rowLength - 1; i > 0; i--)
+    {
+        int count = 0;
+
+        for (int j = 0; j < coloumnLength; j++)
+        {
+            if (frameBlocks[i][j])
+            {
+                count++;
+            }
+
+            frameBlocks[k][j] = frameBlocks[i][j];
+        }
+        if (count < coloumnLength)
+        {
+            k--;
+        }
+    }
+            
+    movementOnXAxis = 0;
+    rotateCubes = 0;
+    delayTimeToDescend = 0.3;
+}
+
+void Tick(float& timer, float& delayTimeToDescend, int& colorNumber)
+{
     if (timer > delayTimeToDescend)
     {
         for (int i = 0; i < 4; i++)
@@ -205,31 +177,48 @@ void Tick(float &timer, float &delayTimeToDescend, int &colorNumber)
     }
 }
 
-void CheckLines(bool &rotateCubes, int &movementOnXAxis, float &delayTimeToDescend)
+void Draw(RenderWindow& window, Sprite& tile, Sprite& background, Sprite& frame, Text& gameOverText, Text& tetrisText, bool& gameEnd, int& colorNumber)
 {
-    ///////check lines//////////
-    int k = rowLength - 1;
+    window.clear(Color::White);
+    window.draw(background);
 
-    for (int i = rowLength - 1; i > 0; i--)
+    // displaying the blocks at bottom
+    for (int i = 0; i < rowLength; i++)
     {
-        int count = 0;
-
         for (int j = 0; j < coloumnLength; j++)
         {
-            if (frameBlocks[i][j])
+            if (frameBlocks[i][j] == 0)
             {
-                count++;
+                continue;
             }
 
-            frameBlocks[k][j] = frameBlocks[i][j];
+            tile.setTextureRect(IntRect(frameBlocks[i][j] * 18, 0, 18, 18));
+            tile.setPosition(j * 18, i * 18);
+            tile.move(79.35, 95); // offset
+            window.draw(tile);
+
+            // Game Over Functionality
+            if (tile.getPosition().y <= 120)
+            {
+                window.draw(gameOverText);
+                gameEnd = true;
+            }
         }
-        if (count < coloumnLength)
-        {
-            k--;
-        }
+
     }
-            
-    movementOnXAxis = 0;
-    rotateCubes = 0;
-    delayTimeToDescend = 0.3;
+
+    // spawning new blocks
+    for (int i = 0; i < 4; i++)
+    {
+        tile.setTextureRect(IntRect(colorNumber * 18, 0, 18, 18));
+        tile.setPosition(a[i].x * 18, a[i].y * 18);
+        tile.move(79.35, 95); // offset
+        window.draw(tile);
+    }
+
+    frame.setPosition(50, 65);
+    window.draw(frame);
+
+    window.draw(tetrisText);
+    window.display();
 }

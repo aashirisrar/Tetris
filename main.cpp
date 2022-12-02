@@ -4,8 +4,7 @@
 #include <time.h>
 using namespace sf;
 
-
-
+// Function Prototypes
 bool check();
 void Run(Clock &clock, RenderWindow &window, float &timer, bool &rotateCubes, int &movementOnXAxis, float &delayTimeToDescend);
 void Move(int& movementOnXAxis);
@@ -14,11 +13,12 @@ void Tick(float& timer, float& delayTimeToDescend, int& colorNumber);
 void CheckLines(bool& rotateCubes, int& movementOnXAxis, float& delayTimeToDescend);
 void Draw(RenderWindow &window, Sprite &tile, Sprite &background, Sprite &frame, Text &gameOverText, Text &tetrisText, bool &gameEnd, int &colorNumber);
 
-
+// Global Variable Declarations
 int movementOnXAxis = 0;
 bool rotateCubes = false;
 int colorNumber = 1;
-float timer = 0, delayTimeToDescend = 1;
+float timer = 0;
+float delayTimeToDescend = 1;
 bool gameEnd;
 
 
@@ -28,6 +28,7 @@ int main()
 
     RenderWindow window(VideoMode(340, 544), "Tetris 2.0");
 
+    /* --------Sprite-------- */
     Texture textureTile, textureBackground, textureFrame;
     textureTile.loadFromFile("images/tilesnew.png");
     textureBackground.loadFromFile("images/b.png");
@@ -35,6 +36,7 @@ int main()
 
     Sprite tile(textureTile), background(textureBackground), frame(textureFrame);
 
+    /* --------Text-------- */
     Font font;
 
     font.loadFromFile("fonts/gomarice_no_continue.ttf");
@@ -66,7 +68,7 @@ int main()
     gameOverText.setPosition(52.5f, 465.f); // f for explicit typecasting
     tetrisText.setPosition(95.f, 15.f);
 
-    // -------- Icon ---------
+    /* --------Icon-------- */
     Image icon;
     icon.loadFromFile("images/icon.png");
     window.setIcon(icon.getSize().x, icon.getSize().y, icon.getPixelsPtr());
@@ -75,8 +77,7 @@ int main()
 
     while (window.isOpen())
     {
-
-        Run(clock, window, timer,rotateCubes,  movementOnXAxis, delayTimeToDescend);
+        Run(clock, window, timer, rotateCubes, movementOnXAxis, delayTimeToDescend);
 
         if (!gameEnd)
         {
@@ -89,216 +90,9 @@ int main()
             CheckLines(rotateCubes,  movementOnXAxis, delayTimeToDescend);
         }
         
-        //Draw(window, tile, background, frame, gameOverText, tetrisText);
-        Draw(window, tile, background, frame, gameOverText, tetrisText,  gameEnd, colorNumber);
+        Draw(window, tile, background, frame, gameOverText, tetrisText, gameEnd, colorNumber);
+
     }
 
     return 0;
 }
-
-
-//bool check()
-//{
-//    for (int i = 0; i < 4; i++)
-//    {
-//        // not letting the tile escape the frame area at the side and at the bottom
-//        if (a[i].x < 0 || a[i].x >= coloumnLength || a[i].y >= rowLength)
-//        {
-//            return 0;
-//        }
-//        // not letting the tile to overlap or pass through another tile placed at a point
-//        else if (frameBlocks[a[i].y][a[i].x])
-//        {
-//            return 0;
-//        }
-//    }
-//
-//    return 1;
-//}
-
-//void Run(Clock &clock, RenderWindow &window)
-//{
-//    float time = clock.getElapsedTime().asSeconds();
-//    clock.restart();
-//    timer += time;
-//
-//    Event event;
-//    while (window.pollEvent(event))
-//    {
-//        if (event.type == Event::Closed)
-//        {
-//            window.close();
-//        }
-//
-//        if (event.type == Event::KeyPressed)
-//        {
-//            if (event.key.code == Keyboard::Up)
-//            {
-//                rotateCubes = true;
-//
-//            }
-//            else if (event.key.code == Keyboard::Left)
-//            {
-//                movementOnXAxis = -1;
-//            }
-//            else if (event.key.code == Keyboard::Right)
-//            {
-//                movementOnXAxis = 1;
-//            }
-//        }
-//    }
-//
-//    if (Keyboard::isKeyPressed(Keyboard::Down))
-//    {
-//        delayTimeToDescend = 0.05;
-//    }
-//}
-
-//void Move()
-//{
-//    //// <- Move -> ///
-//    for (int i = 0; i < 4; i++)
-//    {
-//        b[i] = a[i];
-//        a[i].x += movementOnXAxis;
-//    }
-//    if (!check())
-//    {
-//        for (int i = 0; i < 4; i++)
-//            a[i] = b[i];
-//    }
-//}
-
-//void Rotate()
-//{
-//    //////Rotate//////
-//    if (rotateCubes)
-//    {
-//        Cubes centerOfRotation = a[1]; // center of rotation
-//        for (int i = 0; i < 4; i++)
-//        {
-//            int x = a[i].y - centerOfRotation.y;
-//            int y = a[i].x - centerOfRotation.x;
-//            a[i].x = centerOfRotation.x - x;
-//            a[i].y = centerOfRotation.y + y;
-//        }
-//        if (!check())
-//        {
-//            for (int i = 0; i < 4; i++)
-//            {
-//                a[i] = b[i];
-//            }
-//        }
-//    }
-//}
-
-//void Tick()
-//{
-//    ///////Tick//////
-//    if (timer > delayTimeToDescend)
-//    {
-//        for (int i = 0; i < 4; i++)
-//        {
-//            b[i] = a[i];
-//            a[i].y += 1;
-//
-//        }
-//
-//        if (!check())
-//        {
-//            for (int i = 0; i < 4; i++)
-//            {
-//                frameBlocks[b[i].y][b[i].x] = colorNumber;
-//
-//            }
-//
-//            colorNumber = 1 + rand() % 7;
-//            int n = rand() % 7;
-//
-//            for (int i = 0; i < 4; i++)
-//            {
-//                a[i].x = tetriminoes[n][i] % 2;
-//                a[i].y = tetriminoes[n][i] / 2;
-//            }
-//        }
-//
-//        timer = 0;
-//    }
-//}
-//
-//void CheckLines()
-//{
-//    ///////check lines//////////
-//    int k = rowLength - 1;
-//
-//    for (int i = rowLength - 1; i > 0; i--)
-//    {
-//        int count = 0;
-//
-//        for (int j = 0; j < coloumnLength; j++)
-//        {
-//            if (frameBlocks[i][j])
-//            {
-//                count++;
-//            }
-//
-//            frameBlocks[k][j] = frameBlocks[i][j];
-//        }
-//        if (count < coloumnLength)
-//        {
-//            k--;
-//        }
-//    }
-//            
-//    movementOnXAxis = 0;
-//    rotateCubes = 0;
-//    delayTimeToDescend = 0.3;
-//}
-
-//void Draw(RenderWindow &window, Sprite &tile, Sprite &background, Sprite &frame, Text &gameOverText, Text &tetrisText)
-//{
-//    /////////draw//////////
-//    window.clear(Color::White);
-//    window.draw(background);
-//
-//    // displaying the blocks at bottom
-//    for (int i = 0; i < rowLength; i++)
-//    {
-//        for (int j = 0; j < coloumnLength; j++)
-//        {
-//            if (frameBlocks[i][j] == 0)
-//            {
-//                continue;
-//            }
-//            
-//            tile.setTextureRect(IntRect(frameBlocks[i][j] * 18, 0, 18, 18));
-//            tile.setPosition(j * 18, i * 18);
-//            tile.move(79.35, 95); // offset
-//            window.draw(tile);
-//
-//
-//            // Game Over Functionality
-//            if (tile.getPosition().y <= 120)
-//            {                
-//                window.draw(gameOverText);
-//                gameEnd = true;
-//            }
-//        }
-//       
-//    }
-//
-//    // spawning new blocks
-//    for (int i = 0; i < 4; i++)
-//    {
-//        tile.setTextureRect(IntRect(colorNumber * 18, 0, 18, 18));
-//        tile.setPosition(a[i].x * 18, a[i].y * 18);
-//        tile.move(79.35, 95); // offset
-//        window.draw(tile);
-//    }
-//
-//    frame.setPosition(50, 65);
-//    window.draw(frame);
-//
-//    window.draw(tetrisText);
-//    window.display();
-//}
