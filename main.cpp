@@ -15,7 +15,6 @@ void DrawGraphics(RenderWindow &window, Sprite &tile, Sprite &background, Sprite
 // Global Variable Declarations
 int movementOnXAxis = 0;
 bool rotateCubes = false;
-int colorNumber = 1;
 float timer = 0;
 float delayTimeToDescend = 1;
 bool gameEnd;
@@ -24,6 +23,8 @@ bool gameEnd;
 int main()
 {
     srand(time(0));
+
+    int colorNumber = 1 + rand() % 7;
 
     RenderWindow window(VideoMode(340, 544), "Tetris 2.0");
 
@@ -71,6 +72,9 @@ int main()
     Image icon;
     icon.loadFromFile("images/icon.png");
     window.setIcon(icon.getSize().x, icon.getSize().y, icon.getPixelsPtr());
+
+
+    /* --------Game-------- */
 
     Clock clock;
 

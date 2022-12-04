@@ -23,7 +23,6 @@ struct Cubes
     int x, y; // x and y components of the arrays a and b
 } a[4], b[4]; // two global variables of struct Cubes named a and b of size 4
 
-
 bool CheckFrame()
 {
     for (int i = 0; i < 4; i++)
@@ -83,7 +82,7 @@ void Movement(int &movementOnXAxis )
 {  
     for (int i = 0; i < 4; i++)
     {
-        b[i] = a[i];
+        b[i] = a[i];  // b is a temp variable
         a[i].x += movementOnXAxis;
     }
     if (!CheckFrame())
