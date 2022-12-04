@@ -30,8 +30,8 @@ int main()
 
     /* --------Sprite-------- */
     Texture textureTile, textureBackground, textureFrame;
-    textureTile.loadFromFile("images/tilesnew.png");
-    textureBackground.loadFromFile("images/b.png");
+    textureTile.loadFromFile("images/tiles.png");
+    textureBackground.loadFromFile("images/bg.png");
     textureFrame.loadFromFile("images/frame.png");
 
     Sprite tile(textureTile), background(textureBackground), frame(textureFrame);
