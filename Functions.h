@@ -195,8 +195,8 @@ void DrawGraphics(RenderWindow& window, Sprite& tile, Sprite& background, Sprite
                 continue;    
             }
 
-            tile.setTextureRect(IntRect(frameBlocks[i][j] * 18, 0, 18, 18)); // ---------------------------- divide the tile texture to show only 1 rectangle
-            tile.setPosition(j * 18, i * 18); //----------------------absolute position (according to pc)
+            tile.setTextureRect(IntRect(frameBlocks[i][j] * 18, 0, 18, 18)); // ------------select a rectangular portion of the tile texture and display the tile present there
+            tile.setPosition(j * 18, i * 18); //----------------------absolute position (according to pc)  (j handle col position and i handle row position) (x coordinate will be therefore the col -> j) (y will be the row -> i)
             tile.move(79.35, 95); // offset  --------------- relative position (according to us) (visible)
             window.draw(tile);
 
