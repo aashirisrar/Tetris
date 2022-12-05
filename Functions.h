@@ -133,10 +133,10 @@ void CheckRows(bool &rotateCubes, int &movementOnXAxis, float &delayTimeToDescen
         {
             if (frameBlocks[i][j])
             {
-                count++;
+                count++;                                // ----------------- counting the number of columns filled in a row
             }
 
-            frameBlocks[k][j] = frameBlocks[i][j];
+            frameBlocks[k][j] = frameBlocks[i][j];     // ------------------ if entire row is filled remove that array
         }
         if (count < coloumnLength)
         {
@@ -151,7 +151,7 @@ void CheckRows(bool &rotateCubes, int &movementOnXAxis, float &delayTimeToDescen
 
 void DescendTile(float& timer, float& delayTimeToDescend, int& colorNumber)
 {
-    if (timer > delayTimeToDescend)    // ---------------------------
+    if (timer > delayTimeToDescend)    // --------------------------- checking so that it does not move the tile down infinitely
     {
         for (int i = 0; i < 4; i++)
         {
@@ -195,7 +195,7 @@ void DrawGraphics(RenderWindow& window, Sprite& tile, Sprite& background, Sprite
                 continue;    
             }
 
-            tile.setTextureRect(IntRect(frameBlocks[i][j] * 18, 0, 18, 18));
+            tile.setTextureRect(IntRect(frameBlocks[i][j] * 18, 0, 18, 18)); // ---------------------------- divide the tile texture to show only 1 rectangle
             tile.setPosition(j * 18, i * 18); //----------------------absolute position (according to pc)
             tile.move(79.35, 95); // offset  --------------- relative position (according to us) (visible)
             window.draw(tile);
@@ -223,5 +223,5 @@ void DrawGraphics(RenderWindow& window, Sprite& tile, Sprite& background, Sprite
     window.draw(frame);
 
     window.draw(tetrisText);
-    window.display();
+    window.display();            // ---------------------------- display all the graphics in the window
 }
