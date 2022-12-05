@@ -167,11 +167,11 @@ void DescendTile(float& timer, float& delayTimeToDescend, int& colorNumber)
             }
 
             colorNumber = 1 + rand() % 7;  // ------------------------------------------ getting a random color 
-            int n = 1;           // ------------------------------------------ handling the shapes
+            int n = rand() % 7;           // ------------------------------------------ handling the shapes
 
             for (int i = 0; i < 4; i++)
             {
-                a[i].x = tetriminoes[n][i] % 2;      // ----------------------------------- to do
+                a[i].x = tetriminoes[n][i] % 2;      // ----------------------------------- building the shapes from the array on the x and y axis
                 a[i].y = tetriminoes[n][i] / 2;
             }
         }
