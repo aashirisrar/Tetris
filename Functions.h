@@ -40,7 +40,7 @@ bool CheckFrame()
             return 0; // false
         }
         // not letting the tile to overlap or pass through another tile placed at a point
-        else if (frameBlocks[a[i].y][a[i].x])  // -------------------------------------------- to do
+        else if (frameBlocks[a[i].y][a[i].x])  // -------------------------------------------- y is row position and x is column position (it will check if at that row-col any cube is or not)
         {
             return 0;  // false
         }
